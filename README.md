@@ -5,5 +5,5 @@ addPurchaseView.jsp 창이 구매 하는 창이니 여기에서 사용되는 rec
 AddPurchaseAction에서 view의 내용들을 purchase.setReceiverName(request.getParameter("receiverName"));이런식으로 set 해준다
 이걸 addPurchase.jsp 에서 purchase.getReceiverName()으로 user도메인에 저장된 내용을 get해오는것이다.
 
-=============================================================================================================================
+============================================================================
 배송이 안되던건 listProduct 를 purchase 하면서 배송 때문에 수정 했는데 안해서 안돌아갔던것이다.
