@@ -30,11 +30,13 @@ public class ListPurchaseAction extends Action {
 		search.setSearchKeyword(request.getParameter("searchKeyword"));
 		
 		// web.xml  meta-data 로 부터 상수 추출 
-		int pageSize = Integer.parseInt( getServletContext().getInitParameter("pageSize"));//5
-		int pageUnit  =  Integer.parseInt(getServletContext().getInitParameter("pageUnit"));//3
+		int pageSize = Integer.parseInt( getServletContext().getInitParameter("pageSize"));//3
+		int pageUnit  =  Integer.parseInt(getServletContext().getInitParameter("pageUnit"));//5
+		
 		search.setPageSize(pageSize);
 		
 		String buyerId = ((User)session.getAttribute("user")).getUserId();
+		
 		PurchaseService service = new PurchaseServiceImpl();
 		Map<String, Object> map = service.getPurchaseList(search, buyerId);
 		
@@ -42,7 +44,7 @@ public class ListPurchaseAction extends Action {
 				new Page( currentPage, ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println("ListProductAction ::"+resultPage);
 		
-		
+		request.setAttribute("resultPage", resultPage);
 		request.setAttribute("map", map);
 		request.setAttribute("search", search);
 		

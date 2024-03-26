@@ -87,8 +87,8 @@
 			
 			
 			<%
-									if(maxPage==0) {
-									%>
+				if(maxPage==0) {
+			%>
 			<tr class="ct_list_pop"> 
 				<td align="center" colspan="100%">구매 내역이 없습니다.</td>
 			</tr>
@@ -99,34 +99,34 @@
 			} else {
 			%>
 			<%
-			int no=list.size();
-					               for(int i=0; i<list.size(); i++) {
-					                  Purchase purcahse = (Purchase)list.get(i);
+				int no=list.size();
+                for(int i=0; i<list.size(); i++) {
+                Purchase purchase = (Purchase)list.get(i);
 			%>
 
 				<tr class="ct_list_pop">
-					<td align="center"><a href="/getPurchase.do?tranNo=<%= purcahse.getTranNo() %>"><%=no--%></a>
+					<td align="center"><a href="/getPurchase.do?tranNo=<%= purchase.getTranNo() %>"><%=no--%></a>
 					</td>
 					<td></td>
-					<td align="left"><a href="/getUser.do?userId=<%= purcahse.getBuyer().getUserId() %>"><%= purcahse.getBuyer().getUserId() %></a></td>
+					<td align="left"><a href="/getUser.do?userId=<%= purchase.getBuyer().getUserId() %>"><%= purchase.getBuyer().getUserId() %></a></td>
 					<td></td>
-					<td align="left"><%= purcahse.getBuyer().getUserName() %></td>
+					<td align="left"><%= purchase.getReceiverName()%></td>
 					<td></td>
-					<td align="left"><%= purcahse.getBuyer().getPhone() %></td>
+					<td align="left"><%= purchase.getReceiverPhone()%></td>
 					<td></td>
 					<td align="left">
-					<% if(purcahse.getTranCode().equals("1")) { %>
+					<% if(purchase.getTranCode().equals("1")) { %>
 					구매완료 // 배송 준비중입니다.
-					<% } else if(purcahse.getTranCode().equals("2")) { %>
+					<% } else if(purchase.getTranCode().equals("2")) { %>
 					구매하신 상품이 배송중입니다.
-					<% } else if(purcahse.getTranCode().equals("3")) { %>
+					<% } else if(purchase.getTranCode().equals("3")) { %>
 					[상품 수령 완료] == 상품 거래가 끝났습니다.
 					<% } %> 
 					</td>
 					<td></td>
 					<td align="left">
-					<% if(purcahse.getTranCode().equals("2")) { %>
-					<a href="/updateTranCodeByProd.do?tranNo=<%= purcahse.getTranNo() %>&tranCode=3"/>물건 도착(수령 확인)</a>
+					<% if(purchase.getTranCode().equals("2")) { %>
+					<a href="/updateTranCodeByProd.do?tranNo=<%= purchase.getTranNo() %>&tranCode=3"/>물건 도착(수령 확인)</a>
 					<% } %> 
 					</td>
 				</tr>

@@ -4,7 +4,7 @@
 <%@page import="com.model2.mvc.service.domain.Purchase"%>
 
 <%
-Purchase vo = (Purchase) request.getAttribute("purchase");
+Purchase purchase = (Purchase) request.getAttribute("purchase");
 %>
 
 <html>
@@ -19,19 +19,19 @@ Purchase vo = (Purchase) request.getAttribute("purchase");
 	<table border=1>
 		<tr>
 			<td>물품번호</td>
-			<td><%=vo.getPurchaseProd().getProdNo()%></td>
+			<td><%=purchase.getPurchaseProd().getProdNo()%></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>구매자아이디</td>
-			<td><%=vo.getBuyer().getUserId()%></td>
+			<td><%=purchase.getBuyer().getUserId()%></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>구매방법</td>
 			<td>
 			
-				<%  if (Integer.parseInt(vo.getPaymentOption()) == 1) { %> 
+				<%  if (Integer.parseInt(purchase.getPaymentOption()) == 1) { %> 
 						현금구매 
 				<%	} else { %>
 
@@ -43,27 +43,27 @@ Purchase vo = (Purchase) request.getAttribute("purchase");
 		</tr>
 		<tr>
 			<td>구매자이름</td>
-			<td><%=vo.getBuyer().getUserName()%></td>
+			<td><%=purchase.getReceiverName()%></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>구매자연락처</td>
-			<td><%=vo.getBuyer().getPhone()%></td>
+			<td><%=purchase.getReceiverPhone()%></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>구매자주소</td>
-			<td><%=vo.getBuyer().getAddr()%></td>
+			<td><%=purchase.getDivyAddr()%></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>구매요청사항</td>
-			<td><%=vo.getDivyRequest()%></td>
+			<td><%=purchase.getDivyRequest()%></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>배송희망일자</td>
-			<td><%=vo.getDivyDate()%></td>
+			<td><%=purchase.getDivyDate()%></td>
 			<td></td>
 		</tr>
 	</table>

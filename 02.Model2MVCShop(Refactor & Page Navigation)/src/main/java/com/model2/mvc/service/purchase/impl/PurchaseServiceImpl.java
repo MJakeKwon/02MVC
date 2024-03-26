@@ -16,7 +16,7 @@ public class PurchaseServiceImpl implements PurchaseService{
 	}
 	
 	public void insertPurchase(Purchase purchase) throws Exception{
-		purchaseDao.insertPurhcase(purchase);
+		purchaseDao.insertPurchase(purchase);
 	}
 	
 	public Purchase getPurchase(int tranNo) throws Exception{

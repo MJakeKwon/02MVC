@@ -3,7 +3,7 @@
 <%@ page pageEncoding="EUC-KR"%>
 
 <%
-Purchase purcahse = (Purchase)request.getAttribute("purcahse");
+Purchase purchase = (Purchase)request.getAttribute("purchase");
 %>
 
 <html>
@@ -19,7 +19,7 @@ Purchase purcahse = (Purchase)request.getAttribute("purcahse");
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="updatePurchase" method="post"	action="/updatePurchase.do?tranNo=<%= purcahse.getTranNo()%>">
+<form name="updatePurchase" method="post"	action="/updatePurchase.do?tranNo=<%= purchase.getTranNo()%>">
 
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tr>
@@ -47,8 +47,8 @@ Purchase purcahse = (Purchase)request.getAttribute("purcahse");
 	<tr>
 		<td width="104" class="ct_write">구매자아이디</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%= purcahse.getBuyer().getUserId() %></td>
-		<input type="hidden" name="buyerId" value="<%= purcahse.getBuyer().getUserId() %>"/>
+		<td class="ct_write01"><%= purchase.getBuyer().getUserId() %></td>
+		<input type="hidden" name="buyerId" value="<%= purchase.getBuyer().getUserId() %>"/>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -60,8 +60,8 @@ Purchase purcahse = (Purchase)request.getAttribute("purcahse");
 			<select 	name="paymentOption" 	class="ct_input_g" style="width: 100px; height: 19px" 
 							maxLength="20">
 					
-				<option value="1" <%= purcahse.getPaymentOption().equals("1") ? "selected":"" %>>현금구매</option>
-				<option value="2" <%= purcahse.getPaymentOption().equals("2") ? "selected":"" %>>신용구매</option>
+				<option value="1" <%= purchase.getPaymentOption().equals("1") ? "selected":"" %>>현금구매</option>
+				<option value="2" <%= purchase.getPaymentOption().equals("2") ? "selected":"" %>>신용구매</option>
 				
 			</select>
 		</td>
@@ -74,7 +74,7 @@ Purchase purcahse = (Purchase)request.getAttribute("purcahse");
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverName" 	class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="<%= purcahse.getBuyer().getUserName()%>">
+							maxLength="20" value="<%= purchase.getBuyer().getUserName()%>">
 		</td>
 	</tr>
 	<tr>
@@ -85,7 +85,7 @@ Purchase purcahse = (Purchase)request.getAttribute("purcahse");
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverPhone" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="<%= purcahse.getBuyer().getPhone() %>" />
+							maxLength="20" value="<%= purchase.getBuyer().getPhone() %>" />
 		</td>
 	</tr>
 
@@ -97,7 +97,7 @@ Purchase purcahse = (Purchase)request.getAttribute("purcahse");
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverAddr" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="<%= purcahse.getBuyer().getAddr() %>" />
+							maxLength="20" value="<%= purchase.getBuyer().getAddr() %>" />
 		</td>
 	</tr>
 	<tr>
@@ -108,7 +108,7 @@ Purchase purcahse = (Purchase)request.getAttribute("purcahse");
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverRequest" 	class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="<%= purcahse.getDivyRequest()%> "/>
+							maxLength="20" value="<%= purchase.getDivyRequest()%> "/>
 		</td>
 	</tr>
 	<tr>

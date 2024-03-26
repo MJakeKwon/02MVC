@@ -69,24 +69,29 @@ public class PurchaseDao {
 				+ "	WHERE u.user_id = ? "
 				+ ") "
 				+ "WHERE rn BETWEEN ? AND ?";
-		//sql체크
-		System.out.println(sql);
 		
-		//==> TotalCount GET
-		int totalCount  = this.getTotalCount(sql);
-		System.out.println("PurchaseDao :: totalCount  :: " + totalCount);
+		PreparedStatement pStmt = con.prepareStatement
+									(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		
-		sql = makeCurrentPageSql(sql, search);
-		PreparedStatement pStmt = con.prepareStatement(sql);
+		int searchRowStart = search.getCurrentPage() * search.getPageSize() - search.getPageSize() + 1;
+		System.out.println("searchVO.getPageUnit() : " + search.getPageSize());
+
+		int searchRowEnd = searchRowStart + search.getPageSize() - 1;
+		System.out.println("searchRowStart : " + searchRowStart);
+		System.out.println("searchRowEnd : " + searchRowEnd);
+
+		pStmt.setString(1, buyerId);
+		pStmt.setInt(2, searchRowStart);
+		pStmt.setInt(3, searchRowEnd);
+		
+		int totalCount  = this.getTotalCount(sql, search,  buyerId);
+		System.out.println("totalCount :: " + totalCount);
+		
 		ResultSet rs = pStmt.executeQuery();
 		
-		System.out.println(search);
-		
-		rs.last();
-		int total = rs.getRow();
+		System.out.println("PurchaseDao :: totalCount  :: " + totalCount);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("count", new Integer(total));
 		
 		List<Purchase> list = new ArrayList<Purchase>();
 		while(rs.next()){
@@ -102,10 +107,7 @@ public class PurchaseDao {
 				purchase.setTranCode(rs.getString("tran_code").trim());
 				purchase.setOrderDate(rs.getDate("order_data"));
 				purchase.setDivyDate(rs.getString("dlvy_date"));
-
 				list.add(purchase);
-				if (!rs.next())
-					break;
 			}
 		System.out.println("list.size() : "+ list.size());
 		System.out.println("map().size() : "+ map.size());
@@ -113,6 +115,7 @@ public class PurchaseDao {
 		map.put("list", list);
 		//==> totalCount 정보 저장
 		map.put("totalCount", new Integer(totalCount ));
+		System.out.println(map.get("list"));
 		
 		con.close();
 		rs.close();
@@ -130,7 +133,9 @@ public class PurchaseDao {
 		PreparedStatement pStmt = con.prepareStatement(sql);
 		ResultSet rs = pStmt.executeQuery();
 		
-		int totalCount  = this.getTotalCount(sql);
+		rs.last();
+		int totalCount = rs.getRow();
+
 		System.out.println("PurcahseDao :: totalCount  :: " + totalCount);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -158,7 +163,7 @@ public class PurchaseDao {
 		}
 
 		map.put("list", list);
-		map.put("totalCount", new Integer(totalCount ));
+		map.put("totalCount", new Integer(totalCount));
 		
 		System.out.println("list test :"+list);
 		System.out.println("list.size() : "+ list.size());
@@ -171,7 +176,7 @@ public class PurchaseDao {
 		return map;
 	}
 	
-	public void insertPurhcase(Purchase purchase) throws Exception{
+	public void insertPurchase(Purchase purchase) throws Exception{
 		
 		Connection con = DBUtil.getConnection();
 		
@@ -228,27 +233,37 @@ public class PurchaseDao {
 		con.close();
 	}
 	
-	private int getTotalCount(String sql) throws Exception {
+	private int getTotalCount(String sql,Search search,String buyerId) throws Exception {
+	    sql = "SELECT COUNT(*) FROM (" +sql+ ") countTable";
+	    
+	    int searchRowStart = search.getCurrentPage() * search.getPageSize() - search.getPageSize() + 1;
+		System.out.println("searchVO.getPageUnit() : " + search.getPageSize());
+
+		int searchRowEnd = searchRowStart + search.getPageSize() - 1;
+		System.out.println("searchRowStart : " + searchRowStart);
+		System.out.println("searchRowEnd : " + searchRowEnd);
+
+	    Connection con = DBUtil.getConnection();
+	    PreparedStatement pStmt = con.prepareStatement(sql);
+	    
+	    pStmt.setString(1, buyerId);
+		pStmt.setInt(2, searchRowStart);
+		pStmt.setInt(3, searchRowEnd);
 		
-		sql = "SELECT COUNT(*) "+
-		          "FROM ( " +sql+ ") countTable";
-		
-		Connection con = DBUtil.getConnection();
-		PreparedStatement pStmt = con.prepareStatement(sql);
-		ResultSet rs = pStmt.executeQuery();
-		
-		int totalCount = 0;
-		if( rs.next() ){
-			totalCount = rs.getInt(1);
-		}
-		
-		pStmt.close();
-		con.close();
-		rs.close();
-		
-		return totalCount;
+	    ResultSet rs = pStmt.executeQuery();
+	    
+	    int totalCount = 0;
+	    if (rs.next()) {
+	        totalCount = rs.getInt(1);
+	    }
+
+	    pStmt.close();
+	    con.close();
+	    rs.close();
+
+	    return totalCount;
 	}
-	
+
 	private String makeCurrentPageSql(String sql , Search search){
 		sql = 	"SELECT * "+ 
 					"FROM (		SELECT inner_table. * ,  ROWNUM AS row_seq " +

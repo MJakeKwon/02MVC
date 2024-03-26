@@ -38,7 +38,7 @@ public class ListProductAction extends Action {
 		Map<String, Object> map = productService.getProductList(search);
 		
 		Page resultPage	= 
-				new Page( currentPage, ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+				new Page( currentPage, ((Integer)map.get("totalCount")).intValue(), pageSize, pageUnit);
 		System.out.println("ListProductAction ::"+resultPage);
 		
 		// Model °ú View ¿¬°á

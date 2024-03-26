@@ -2,7 +2,7 @@
 <%@ page contentType="text/html; charset=euc-kr"%>
 <%@ page pageEncoding="EUC-KR"%>
 
-<%@page import="com.model2.mvc.service.domain.Product"%>
+<%@ page import="com.model2.mvc.service.domain.*"%>
 
 <%
 Product product = (Product) request.getAttribute("product");
@@ -152,7 +152,7 @@ Product product = (Product) request.getAttribute("product");
 				<td bgcolor="D6D6D6" width="1"></td>
 				<td class="ct_write01"><input type="text" name="receiverName"
 					class="ct_input_g" style="width: 100px; height: 19px"
-					maxLength="20" value="<%= user.getUserName() %>" /></td>
+					maxLength="20" value="<%=user.getUserName()  %>" /></td>
 			</tr>
 			<tr>
 				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -162,7 +162,7 @@ Product product = (Product) request.getAttribute("product");
 				<td bgcolor="D6D6D6" width="1"></td>
 				<td class="ct_write01"><input type="text" name="receiverPhone"
 					class="ct_input_g" style="width: 100px; height: 19px"
-					maxLength="20" value="<%= user.getPhone() %>" /></td>
+					maxLength="20" value="<%=user.getPhone()%>" /></td>
 			</tr>
 			<tr>
 				<td height="1" colspan="3" bgcolor="D6D6D6"></td>

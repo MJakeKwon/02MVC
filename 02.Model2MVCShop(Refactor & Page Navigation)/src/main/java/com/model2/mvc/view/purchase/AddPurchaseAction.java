@@ -27,7 +27,7 @@ public class AddPurchaseAction extends Action {
 		purchase.setPurchaseProd(product);
 		purchase.setBuyer(user);
 		purchase.setPaymentOption(request.getParameter("paymentOption"));
-		purchase.setReceiverName(request.getParameter("receiceverName"));
+		purchase.setReceiverName(request.getParameter("receiverName"));
 		purchase.setReceiverPhone(request.getParameter("receiverPhone"));
 		purchase.setDivyAddr(request.getParameter("receiverAddr"));
 		purchase.setDivyRequest(request.getParameter("receiverRequest"));

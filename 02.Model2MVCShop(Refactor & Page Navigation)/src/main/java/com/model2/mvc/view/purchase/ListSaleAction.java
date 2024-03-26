@@ -22,9 +22,6 @@ public class ListSaleAction extends Action {
 		}//pagenumber를 눌렀을때 넘어가는 화면
         
 		search.setCurrentPage(currentPage);
-		search.setSearchCondition(request.getParameter("searchCondition"));
-		search.setSearchKeyword(request.getParameter("searchKeyword"));
-		
 		// web.xml  meta-data 로 부터 상수 추출 
 		int pageSize = Integer.parseInt( getServletContext().getInitParameter("pageSize"));//5
 		int pageUnit  =  Integer.parseInt(getServletContext().getInitParameter("pageUnit"));//3

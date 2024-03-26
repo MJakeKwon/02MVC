@@ -80,23 +80,44 @@ function fncGetProductList(currentPage) {
 
 			<table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
 				<tr>
-				<td align="right">	
-				<%if(search.getSearchCondition() !=null){ %>
-					   <select name="searchCondition"		class="ct_input_g"	 style="width: 80px">
-								<option value="0" <%=search.getSearchCondition().equals("0") ? "selected":""%>>상품번호</option>
-								<option value="1" <%=search.getSearchCondition().equals("1") ? "selected":""%>>상품명</option>
-								<option value="2" <%=search.getSearchCondition().equals("2") ? "selected":""%>>상품가격</option>
-						</select>
-					<%}else{ %>
-						<select name="searchCondition"		class="ct_input_g"	 style="width: 80px">
-								<option value="0" >상품번호</option>
-								<option value="1" >상품명</option>
+				<td align="right">
+					<%
+						if (search.getSearchCondition() != null) {
+					%>
+					<td align="right">	<select name="searchCondition"		class="ct_input_g"	 style="width: 80px">
+							<%
+								if (search.getSearchCondition().equals("0")) {
+							%>
+								<option value="0">상품번호</option>
+								<option value="1">상품명</option>
 								<option value="2">상품가격</option>
-						</select>
-					<%} %>
-						<input 	type="text" name="searchKeyword" value="<%= searchKeyword %>"  class="ct_input_g" 
-								style="width:200px; height:20px" >
-					</td>
+							<%
+								} else {
+							%>
+								<option value="0">상품번호</option>
+								<option value="1">상품명</option>
+								<option value="2">상품가격</option>
+							<%
+								}
+							%>
+					</select> 
+					<input type="text" name="searchKeyword"
+						value="<%=search.getSearchKeyword()%>" class="ct_input_g"
+						style="width: 200px; height: 19px"></td>
+					<%
+					} else {
+					%>
+					<td align="right"><select name="searchCondition"
+						class="ct_input_g" style="width: 80px">
+							<option value="0">상품번호</option>
+							<option value="1">상품명</option>
+							<option value="2">상품가격</option>
+					</select> <input type="text" name="searchKeyword" class="ct_input_g"
+						style="width: 200px; height: 19px"></td>
+					<%
+					}
+					%>
+				
 					<td align="right" width="70">
 						<table border="0" cellspacing="0" cellpadding="0">
 							<tr>
@@ -104,7 +125,7 @@ function fncGetProductList(currentPage) {
 									src="/images/ct_btnbg01.gif" width="17" height="23"></td>
 								<td background="/images/ct_btnbg02.gif" class="ct_btn01"
 									style="padding-top: 3px;"><a
-									href="javascript:fncGetProductList(1);">검색</a></td>
+									href="javascript:fncGetProductList();">검색</a></td>
 								<td width="14" height="23"><img
 									src="/images/ct_btnbg03.gif" width="14" height="23"></td>
 							</tr>
@@ -168,14 +189,31 @@ function fncGetProductList(currentPage) {
 					<td></td>
 					<td><%=prod.getRegDate()%></td>
 					<td></td>
-					<td>판매중</td>
-				</tr>
+					<%	if (((User) session.getAttribute("user")).getRole().equals("admin")){	%>
+							<% if(prod.getProTranCode().equals("0")){ %>
+										<td align="left">판매중</td>
+									<%}else if(prod.getProTranCode().equals("1")) {%>
+												<td align ="left"> 결제완료
+												<a href ="/updateTranCodeByProd.do?tranNo=<%=prod.getTranNo() %>&tranCode=2">배송하기</a>
+												</td>
+									<%}else if(prod.getProTranCode().equals("2")){ %>
+											<td align ="left"> 배송중</td>
+									<%}else if(prod.getProTranCode().equals("3")){ %>
+											<td align ="left"> 배송완료</td>
+									<%} %>
+									<%}else{ %>
+										<%if(prod.getProTranCode().equals("0")){ %>
+											<td align ="left">판매중</td>
+											<%} else{ %>
+														<td align ="left"> 재고없음</td>
+													<%} %>
+										<%} %>
+							</td>
+					</tr>
 				<tr>
 					<td colspan="11" bgcolor="D6D7D6" height="1"></td>
 				</tr>
-				<%
-				}
-				%>
+				<% } %>
 			</table>
 			
 			<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
